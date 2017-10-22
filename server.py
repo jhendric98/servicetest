@@ -46,7 +46,7 @@ class Tracks(Resource):
     def get(self):
         conn = db_connect.connect()
         query = conn.execute("select trackid, name, composer, unitprice from tracks;")
-        result = {'data': [dict(zip(tuple (query.keys()), i)) for i in query.cursor]}
+        result = {'data': [dict(zip(tuple(query.keys()), i)) for i in query.cursor]}
         return jsonify(result)
 
     
@@ -61,7 +61,8 @@ class Employees_Name(Resource):
 class Quote(Resource):
     def get(self, ticker):
         quote = Share(ticker.upper())
-        result = {'ticker': ticker.upper(), 'quote': quote.get_price()}
+        quote.refresh()
+        result = {'ticker': ticker.upper(), 'price': quote.get_price(), 'trade_dt': quote.get_trade_datetime()}
         return jsonify(result)
 
 
