@@ -1,10 +1,10 @@
 FROM ubuntu:latest
 MAINTAINER Jim Hendricksa "jhendric98@gmail.com"
 RUN apt-get update -y
-RUN apt-get install -y python-pip python-dev build-essential sqlite
+RUN apt-get install -y python3-pip python3-dev build-essential sqlite
 COPY . /python_rest
 WORKDIR /python_rest
-RUN pip install --upgrade pip
+RUN pip3 install --upgrade pip
 RUN pip install -r requirements.txt
-ENTRYPOINT ["python"]
+ENTRYPOINT ["python3"]
 CMD ["server.py"]
