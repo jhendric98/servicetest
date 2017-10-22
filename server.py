@@ -62,7 +62,7 @@ class Quote(Resource):
     def get(self, ticker):
         quote = Share(ticker.upper())
         quote.refresh()
-        result = {'ticker': ticker.upper(), 'price': quote.get_price(), 'trade_dt': quote.get_trade_datetime()}
+        result = {'quote': [{'ticker': ticker.upper(), 'price': quote.get_price(), 'trade_dt': quote.get_trade_datetime()}]}
         return jsonify(result)
 
 
