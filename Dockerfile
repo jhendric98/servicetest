@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-MAINTAINER Jim Hendricksa "jhendric98@gmail.com"
+MAINTAINER Jim Hendricks "jhendric98@gmail.com"
 RUN apt-get update -y
 RUN apt-get install -y python3-pip python3-dev build-essential sqlite
 COPY . /python_rest
