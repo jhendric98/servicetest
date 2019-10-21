@@ -18,5 +18,5 @@ python-dateutil==2.6.1
 pytz==2017.2
 six==1.11.0
 SQLAlchemy==1.1.13
-Werkzeug==0.12.2
+Werkzeug==0.15.3
 yahoo-finance==1.4.0
