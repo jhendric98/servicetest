@@ -16,5 +16,5 @@ python-dateutil==2.6.1
 pytz==2017.2
 six==1.11.0
 SQLAlchemy==1.1.13
-Werkzeug==2.2.3
+Werkzeug==3.0.1
 yahoo_fin==0.8.9.1
