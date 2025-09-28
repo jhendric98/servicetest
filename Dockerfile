@@ -1,10 +1,13 @@
-FROM ubuntu:latest
-MAINTAINER Jim Hendricks "jhendric98@gmail.com"
-RUN apt-get update -y
-RUN apt-get install -y python3-pip python3-dev build-essential sqlite
-COPY . /python_rest
-WORKDIR /python_rest
-RUN pip3 install --upgrade pip
-RUN pip install -r requirements.txt
-ENTRYPOINT ["python3"]
-CMD ["server.py"]
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY requirements.txt ./
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+COPY . ./
+
+EXPOSE 5002
+
+CMD ["python", "server.py", "--host", "0.0.0.0", "--port", "5002"]
