@@ -18,6 +18,33 @@ This project exposes a small portion of the [Chinook sample database](https://gi
 
 ### Installation
 
+You can install the dependencies with either the built-in `venv` module or with
+the [uv](https://github.com/astral-sh/uv) package manager.  The uv workflow is
+recommended because it understands the `pyproject.toml` included in this
+repository and can resolve optional dependency groups in a single command.
+
+#### Using uv (recommended)
+
+1. Create the environment (this uses the Python from your `$PATH`):
+
+   ```bash
+   uv venv
+   source .venv/bin/activate
+   ```
+
+2. Install the application and development dependencies defined in
+   `pyproject.toml`:
+
+   ```bash
+   uv sync --all-groups
+   ```
+
+   The `--all-groups` flag installs the default runtime dependencies as well as
+   the optional development tools listed under `[tool.uv]` in
+   `pyproject.toml`.
+
+#### Using pip
+
 1. Create and activate a virtual environment:
 
    ```bash
@@ -25,7 +52,7 @@ This project exposes a small portion of the [Chinook sample database](https://gi
    source .venv/bin/activate
    ```
 
-2. Install the required dependencies:
+2. Install the required dependencies from `requirements.txt`:
 
    ```bash
    python -m pip install --upgrade pip
