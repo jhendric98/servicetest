@@ -1,57 +1,116 @@
-# Flask RESTful API for Chinook Database
+# Flask RESTful API for the Chinook Database
 
-This repository contains a Python script that demonstrates a Flask-based RESTful API for the Chinook database. The API provides endpoints to interact with the employees, tracks, and stock quotes. It uses Flask, Flask-RESTful, SQLAlchemy, and the yahoo_fin library.
+This project exposes a small portion of the [Chinook sample database](https://github.com/lerocha/chinook-database) through a Flask RESTful API.  It demonstrates safe data access patterns, lightweight request validation, and graceful integration with the [`yahoo_fin`](https://theautomatic.net/yahoo_fin-documentation/) library for retrieving stock quotes.
 
-## Requirements
+## Features
 
-Python 3.6 or higher is required to run this script. Before running the script, you need to install the required packages from the `requirements.txt` file. You can do this by running the following command:
+* Employees endpoint that supports listing and creating employee records with basic validation.
+* Tracks endpoint that surfaces readonly track metadata.
+* Quote endpoint that sanitises the requested ticker symbol and degrades gracefully when Yahoo Finance cannot provide data.
+* Configurable database connection string and quote fetcher for testing or local development.
 
+## Getting Started
 
-## Overview
+### Prerequisites
 
-The API has four main endpoints:
+* Python 3.9 or later (the code relies on modern typing features and SQLAlchemy 2 behaviour).
+* A SQLite copy of the Chinook database (one is shipped as `chinook.db`).
 
-1. `/employees`: To get a list of all employees and add a new employee.
-2. `/tracks`: To get a list of tracks with their track ID, name, composer, and unit price.
-3. `/employees/<employee_id>`: To get information about a specific employee by their employee ID.
-4. `/quote/<ticker>`: To get a stock quote using the yahoo_fin library for a specific stock ticker.
+### Installation
 
-## Instructions for Use
+You can install the dependencies with either the built-in `venv` module or with
+the [uv](https://github.com/astral-sh/uv) package manager.  The uv workflow is
+recommended because it understands the `pyproject.toml` included in this
+repository and can resolve optional dependency groups in a single command.
 
-1. Clone this repository or download the script file.
-2. Install the required packages using the command provided in the Requirements section.
-3. Run the script with the following command:
+#### Using uv (recommended)
 
+1. Create the environment (this uses the Python from your `$PATH`):
 
-4. Once the script is running, you can access the API by navigating to `http://localhost:5002` in your browser or by using API testing tools like Postman or curl.
+   ```bash
+   uv venv
+   source .venv/bin/activate
+   ```
 
-Here are some sample requests for each endpoint:
+2. Install the application and development dependencies defined in
+   `pyproject.toml`:
 
-- Get a list of all employees:
-  - Method: `GET`
-  - URL: `http://localhost:5002/employees`
+   ```bash
+   uv sync --all-groups
+   ```
 
-- Add a new employee:
-  - Method: `POST`
-  - URL: `http://localhost:5002/employees`
-  - Headers: `Content-Type: application/json`
-  - Body: JSON object containing employee data (e.g., `{"LastName": "Doe", "FirstName": "John", "Title": "Sales Manager", ...}`)
+   The `--all-groups` flag installs the default runtime dependencies as well as
+   the optional development tools listed under `[tool.uv]` in
+   `pyproject.toml`.
 
-- Get a list of tracks:
-  - Method: `GET`
-  - URL: `http://localhost:5002/tracks`
+#### Using pip
 
-- Get information about an employee by their employee ID:
-  - Method: `GET`
-  - URL: `http://localhost:5002/employees/1`
+1. Create and activate a virtual environment:
 
-- Get a stock quote for a specific stock ticker:
-  - Method: `GET`
-  - URL: `http://localhost:5002/quote/AAPL`
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
+   ```
 
-## Running Tests
+2. Install the required dependencies from `requirements.txt`:
 
-The script includes a set of tests for the API endpoints. To run the tests, execute the script with the following command:
+   ```bash
+   python -m pip install --upgrade pip
+   python -m pip install -r requirements.txt
+   ```
 
+### Running the API
 
-The tests will run before the Flask application starts, and the results will be displayed in the terminal.
+Start the service with:
+
+```bash
+python server.py --database-url sqlite:///chinook.db --host 0.0.0.0 --port 5002
+```
+
+The command line options are optional; they allow you to point to an alternative database, bind to a specific interface, or change the port.  Once running, the API will be available at `http://localhost:5002`.
+
+### Example Requests
+
+```bash
+# List all employees
+curl http://localhost:5002/employees
+
+# Create an employee
+curl -X POST http://localhost:5002/employees \
+     -H "Content-Type: application/json" \
+     -d '{
+           "LastName": "Doe",
+           "FirstName": "Janet",
+           "Title": "Sales Manager",
+           "Address": "123 Main",
+           "City": "Springfield",
+           "Country": "USA",
+           "Phone": "555-1234",
+           "Email": "janet.doe@example.com"
+         }'
+
+# Fetch a single employee
+curl http://localhost:5002/employees/1
+
+# List tracks
+curl http://localhost:5002/tracks
+
+# Fetch a quote (depends on Yahoo Finance availability)
+curl http://localhost:5002/quote/AAPL
+```
+
+### Running Tests
+
+The automated test-suite spins up a temporary database and stubs the Yahoo Finance integration.  Execute it with:
+
+```bash
+python -m unittest discover -s tests -p "test_*.py"
+```
+
+## Security Considerations
+
+* SQL queries rely on SQLAlchemy parameter binding to avoid injection vulnerabilities.
+* All employee payloads are validated for missing or unexpected fields before hitting the database.
+* External quote lookups are wrapped with error handling so the API does not crash when the data source is unavailable.
+
+For details on supported versions and how to report security issues, see [SECURITY.md](SECURITY.md).
