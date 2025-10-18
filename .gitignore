@@ -111,7 +111,7 @@ dmypy.json
 .ruff_cache/
 
 # UV
-uv.lock
+# Note: uv.lock should be committed for reproducible builds
 
 # Coverage reports
 htmlcov/
