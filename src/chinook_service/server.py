@@ -3,16 +3,16 @@
 from __future__ import annotations
 
 import argparse
+from collections.abc import Iterable, Mapping, MutableMapping
 from http import HTTPStatus
-from typing import Any, Callable, Dict, Iterable, Mapping, MutableMapping
+from typing import Any, Callable
 
 from flask import Flask, current_app, jsonify, request
-from flask_restful import Api, Resource
+from flask_restful import Api, Resource  # type: ignore[import-untyped]
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import SQLAlchemyError
 from yahoo_fin import stock_info
-
 
 EmployeePayload = MutableMapping[str, Any]
 QuoteFetcher = Callable[[str], Mapping[str, Any]]
@@ -47,16 +47,14 @@ REQUIRED_EMPLOYEE_FIELDS = {
 }
 
 
-def _row_to_dict(rows: Iterable[Mapping[str, Any]]) -> list[Dict[str, Any]]:
+def _row_to_dict(rows: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
     """Return a JSON serialisable representation for SQLAlchemy rows."""
-
     return [dict(row) for row in rows]
 
 
 def default_quote_fetcher(ticker: str) -> Mapping[str, Any]:
     """Fetch quote data for *ticker* using :mod:`yahoo_fin`."""
-
-    return stock_info.get_quote_table(ticker)
+    return stock_info.get_quote_table(ticker)  # type: ignore[no-any-return]
 
 
 def _get_engine() -> Engine:
@@ -64,17 +62,19 @@ def _get_engine() -> Engine:
     return engine
 
 
-class Employees(Resource):
+class Employees(Resource):  # type: ignore[misc]
     """Resource providing read/write access to employees."""
 
     def get(self) -> Any:
+        """Get all employees."""
         engine = _get_engine()
         with engine.connect() as conn:
             result = conn.execute(text("SELECT * FROM employees"))
-            employees = _row_to_dict(result.mappings())
+            employees = _row_to_dict(result.mappings())  # type: ignore[arg-type]
         return jsonify({"employees": employees})
 
     def post(self) -> Any:
+        """Create a new employee."""
         payload: EmployeePayload | None = request.get_json(silent=True)
         if not payload:
             return {"message": "Request body must be valid JSON."}, HTTPStatus.BAD_REQUEST
@@ -119,28 +119,33 @@ class Employees(Resource):
                 employee = dict(next(inserted))
         except (SQLAlchemyError, StopIteration) as exc:  # pragma: no cover - defensive
             current_app.logger.exception("Failed to insert employee")
-            return {"message": "Could not store employee.", "details": str(exc)}, HTTPStatus.INTERNAL_SERVER_ERROR
+            return (
+                {"message": "Could not store employee.", "details": str(exc)},
+                HTTPStatus.INTERNAL_SERVER_ERROR,
+            )
 
         return employee, HTTPStatus.CREATED
 
 
-class Tracks(Resource):
+class Tracks(Resource):  # type: ignore[misc]
     """Resource providing read-only access to track metadata."""
 
     def get(self) -> Any:
+        """Get all tracks."""
         engine = _get_engine()
         with engine.connect() as conn:
             result = conn.execute(
                 text("SELECT TrackId, Name, Composer, UnitPrice FROM tracks ORDER BY TrackId")
             )
-            tracks = _row_to_dict(result.mappings())
+            tracks = _row_to_dict(result.mappings())  # type: ignore[arg-type]
         return jsonify({"data": tracks})
 
 
-class Employee(Resource):
+class Employee(Resource):  # type: ignore[misc]
     """Resource returning a single employee by id."""
 
     def get(self, employee_id: int) -> Any:
+        """Get a single employee by ID."""
         engine = _get_engine()
         with engine.connect() as conn:
             result = conn.execute(
@@ -155,10 +160,11 @@ class Employee(Resource):
         return jsonify({"data": dict(employee)})
 
 
-class Quote(Resource):
+class Quote(Resource):  # type: ignore[misc]
     """Resource returning a simplified stock quote."""
 
     def get(self, ticker: str) -> Any:
+        """Get a stock quote for the given ticker symbol."""
         fetcher: QuoteFetcher = current_app.config["QUOTE_FETCHER"]
         symbol = ticker.upper()
 
@@ -192,9 +198,10 @@ class Quote(Resource):
         )
 
 
-def create_app(database_url: str = "sqlite:///chinook.db", quote_fetcher: QuoteFetcher | None = None) -> Flask:
+def create_app(
+    database_url: str = "sqlite:///chinook.db", quote_fetcher: QuoteFetcher | None = None
+) -> Flask:
     """Application factory used by the tests and the CLI entry point."""
-
     app = Flask(__name__)
     api = Api(app)
 
@@ -211,6 +218,7 @@ def create_app(database_url: str = "sqlite:///chinook.db", quote_fetcher: QuoteF
 
 
 def main() -> None:
+    """CLI entry point for the Chinook API service."""
     parser = argparse.ArgumentParser(description="Run the Chinook API service")
     parser.add_argument("--host", default="0.0.0.0", help="Host interface to bind to")
     parser.add_argument("--port", type=int, default=5002, help="Port to listen on")
