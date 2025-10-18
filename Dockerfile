@@ -5,14 +5,14 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
 WORKDIR /app
 
-# Copy dependency files
-COPY pyproject.toml ./
+# Copy all necessary files for package installation
+COPY pyproject.toml uv.lock README.md ./
+COPY src/ ./src/
 
-# Install dependencies
+# Install dependencies and the package
 RUN uv sync --frozen --no-dev
 
-# Copy source code
-COPY src/ ./src/
+# Copy database
 COPY chinook.db ./
 
 EXPOSE 5002

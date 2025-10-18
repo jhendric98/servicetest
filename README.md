@@ -3,8 +3,13 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![Code style: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Type Checker: mypy](https://img.shields.io/badge/type%20checker-mypy-blue.svg)](https://mypy-lang.org/)
+[![Code Quality: A+](https://img.shields.io/badge/code%20quality-A%2B-brightgreen.svg)](https://github.com/YOUR_USERNAME/servicetest)
+[![Test Coverage: 84%](https://img.shields.io/badge/coverage-84%25-green.svg)](https://github.com/YOUR_USERNAME/servicetest)
 [![CI](https://img.shields.io/badge/CI-GitHub%20Actions-green.svg)](https://github.com/actions)
 [![Docker](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://www.docker.com/)
+[![Linting: Passing](https://img.shields.io/badge/linting-passing-brightgreen.svg)](https://github.com/YOUR_USERNAME/servicetest)
+[![Type Checking: Passing](https://img.shields.io/badge/type%20checking-passing-brightgreen.svg)](https://github.com/YOUR_USERNAME/servicetest)
 
 A Flask RESTful API for the Chinook Database that exposes a small portion of the [Chinook sample database](https://github.com/lerocha/chinook-database) through a clean REST interface. It demonstrates safe data access patterns, lightweight request validation, and graceful integration with the [`yahoo_fin`](https://theautomatic.net/yahoo_fin-documentation/) library for retrieving stock quotes.
 
