@@ -2,11 +2,9 @@ import os
 import sqlite3
 import tempfile
 import unittest
-from typing import Dict
 from unittest.mock import Mock
 
-from server import create_app
-
+from chinook_service.server import create_app
 
 EMPLOYEES_SCHEMA = """
 CREATE TABLE employees (
@@ -45,9 +43,19 @@ class APITestCase(unittest.TestCase):
         conn.executescript(EMPLOYEES_SCHEMA)
         conn.executescript(TRACKS_SCHEMA)
         conn.execute(
-            "INSERT INTO employees (LastName, FirstName, Title, Address, City, Country, Phone, Email)"
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            ("Doe", "Jane", "Manager", "123 Main", "Springfield", "USA", "555-1234", "jane@example.com"),
+            "INSERT INTO employees "
+            "(LastName, FirstName, Title, Address, City, Country, Phone, Email) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (
+                "Doe",
+                "Jane",
+                "Manager",
+                "123 Main",
+                "Springfield",
+                "USA",
+                "555-1234",
+                "jane@example.com",
+            ),
         )
         conn.execute(
             "INSERT INTO tracks (Name, Composer, UnitPrice) VALUES (?, ?, ?)",
@@ -73,7 +81,7 @@ class APITestCase(unittest.TestCase):
         self.assertEqual(len(payload["employees"]), 1)
 
     def test_employees_create(self) -> None:
-        body: Dict[str, str] = {
+        body: dict[str, str] = {
             "LastName": "Smith",
             "FirstName": "John",
             "Title": "Sales Rep",
