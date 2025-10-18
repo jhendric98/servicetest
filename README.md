@@ -11,7 +11,10 @@
 [![Linting: Passing](https://img.shields.io/badge/linting-passing-brightgreen.svg)](https://github.com/YOUR_USERNAME/servicetest)
 [![Type Checking: Passing](https://img.shields.io/badge/type%20checking-passing-brightgreen.svg)](https://github.com/YOUR_USERNAME/servicetest)
 
-A Flask RESTful API for the Chinook Database that exposes a small portion of the [Chinook sample database](https://github.com/lerocha/chinook-database) through a clean REST interface. It demonstrates safe data access patterns, lightweight request validation, and graceful integration with the [`yahoo_fin`](https://theautomatic.net/yahoo_fin-documentation/) library for retrieving stock quotes.
+A Flask RESTful API for the Chinook Database that exposes a small portion of the
+[Chinook sample database](https://github.com/lerocha/chinook-database) through a clean REST interface. It demonstrates
+safe data access patterns, lightweight request validation, and graceful integration with the
+[`yahoo_fin`](https://theautomatic.net/yahoo_fin-documentation/) library for retrieving stock quotes.
 
 ## Table of Contents
 
@@ -30,17 +33,18 @@ A Flask RESTful API for the Chinook Database that exposes a small portion of the
 
 ## Features
 
-* Employees endpoint that supports listing and creating employee records with basic validation.
-* Tracks endpoint that surfaces readonly track metadata.
-* Quote endpoint that sanitises the requested ticker symbol and degrades gracefully when Yahoo Finance cannot provide data.
-* Configurable database connection string and quote fetcher for testing or local development.
+- Employees endpoint that supports listing and creating employee records with basic validation.
+- Tracks endpoint that surfaces readonly track metadata.
+- Quote endpoint that sanitises the requested ticker symbol and degrades gracefully when Yahoo Finance cannot
+  provide data.
+- Configurable database connection string and quote fetcher for testing or local development.
 
 ## Getting Started
 
 ### Prerequisites
 
-* Python 3.9 or later (the code relies on modern typing features and SQLAlchemy 2 behaviour).
-* A SQLite copy of the Chinook database (one is shipped as `chinook.db`).
+- Python 3.9 or later (the code relies on modern typing features and SQLAlchemy 2 behaviour).
+- A SQLite copy of the Chinook database (one is shipped as `chinook.db`).
 
 ### Installation
 
@@ -93,7 +97,8 @@ Start the service with:
 python server.py --database-url sqlite:///chinook.db --host 0.0.0.0 --port 5002
 ```
 
-The command line options are optional; they allow you to point to an alternative database, bind to a specific interface, or change the port.  Once running, the API will be available at `http://localhost:5002`.
+The command line options are optional; they allow you to point to an alternative database, bind to a specific
+interface, or change the port. Once running, the API will be available at `http://localhost:5002`.
 
 ### Example Requests
 
@@ -135,17 +140,19 @@ python -m unittest discover -s tests -p "test_*.py"
 
 ## Security Considerations
 
-* SQL queries rely on SQLAlchemy parameter binding to avoid injection vulnerabilities.
-* All employee payloads are validated for missing or unexpected fields before hitting the database.
-* External quote lookups are wrapped with error handling so the API does not crash when the data source is unavailable.
+- SQL queries rely on SQLAlchemy parameter binding to avoid injection vulnerabilities.
+- All employee payloads are validated for missing or unexpected fields before hitting the database.
+- External quote lookups are wrapped with error handling so the API does not crash when the data source is unavailable.
 
 For details on supported versions and how to report security issues, see [SECURITY.md](SECURITY.md).
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to get started, our development process, and how to submit pull requests.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to get started,
+our development process, and how to submit pull requests.
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating
+in this project you agree to abide by its terms.
 
 ## License
 

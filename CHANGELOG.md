@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - GitHub compliance documentation (LICENSE, CONTRIBUTING.md, CODE_OF_CONDUCT.md)
 - Code quality tools configuration (Ruff, mypy, markdownlint)
 - GitHub Actions CI/CD workflows
@@ -16,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced README with badges and table of contents
 
 ### Changed
+
 - Migrated to src-layout structure (`src/chinook_service/`)
 - Updated all dependencies to latest compatible versions
 - Replaced requirements.txt with pyproject.toml configuration
@@ -23,11 +25,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced SECURITY.md with correct version information
 
 ### Removed
+
 - requirements.txt (replaced by pyproject.toml)
 
 ## [0.1.0] - 2025-01-01
 
-### Added
+### Initial Release
+
 - Initial Flask RESTful API for Chinook database
 - Employee management endpoints (list, create, get by ID)
 - Tracks read-only endpoint
@@ -39,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic documentation (README.md, SECURITY.md)
 
 ### Security
+
 - SQL injection protection via SQLAlchemy parameter binding
 - Input validation for employee payloads
 - Graceful error handling for external API dependencies

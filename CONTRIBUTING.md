@@ -1,6 +1,7 @@
 # Contributing to Chinook Service
 
-Thank you for your interest in contributing to Chinook Service! This document provides guidelines and instructions for contributing to the project.
+Thank you for your interest in contributing to Chinook Service! This document provides guidelines and instructions for
+contributing to the project.
 
 ## Table of Contents
 
@@ -14,7 +15,8 @@ Thank you for your interest in contributing to Chinook Service! This document pr
 
 ## Code of Conduct
 
-This project adheres to the Contributor Covenant Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to the project maintainers.
+This project adheres to the Contributor Covenant Code of Conduct. By participating, you are expected to uphold this
+code. Please report unacceptable behavior to the project maintainers.
 
 ## Getting Started
 
@@ -27,7 +29,8 @@ This project adheres to the Contributor Covenant Code of Conduct. By participati
 
 ## Development Setup
 
-This project uses [uv](https://github.com/astral-sh/uv) for dependency management. Follow these steps to set up your development environment:
+This project uses [uv](https://github.com/astral-sh/uv) for dependency management. Follow these steps to set up your
+development environment:
 
 ```bash
 # Clone your fork
@@ -135,4 +138,3 @@ If you have questions or need help, feel free to:
 - Check existing issues and pull requests
 
 Thank you for contributing!
-
